@@ -1,0 +1,46 @@
+﻿<Page
+    x:Class="QuickstartToastWithCustomAudio.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:QuickstartToastWithCustomAudio"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <ScrollViewer Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+        <StackPanel Margin="24">
+
+            <TextBlock
+                Text="Quickstart: Sending a Toast notification with custom audio"
+                Style="{StaticResource TitleTextBlockStyle}"
+                TextWrapping="Wrap"/>
+
+            <RichTextBlock Margin="0,12,0,0">
+                <Paragraph>
+                    This app illustrates how to send a local toast notification that uses custom audio.
+                </Paragraph>
+                <Paragraph />
+                <Paragraph>For handling toast activation, please see
+                    <Hyperlink NavigateUri="https://blogs.msdn.microsoft.com/tiles_and_toasts/2015/07/08/quickstart-sending-a-local-toast-notification-and-handling-activations-from-it-windows-10/">Quickstart: Sending a local toast notification and handling activations</Hyperlink>.</Paragraph>
+            </RichTextBlock>
+
+            <Button
+                x:Name="ButtonSendToast"
+                Content="Click to send toast"
+                Click="ButtonSendToast_Click"
+                HorizontalAlignment="Stretch"
+                Margin="0,12,0,0"/>
+
+            <RichTextBlock Margin="0,12,0,0">
+                <Paragraph>The button above pops a new toast using the local toast API's, and it includes custom toast audio. You should hear the custom audio when you see the toast.</Paragraph>
+                <Paragraph/>
+                <Paragraph>Note that on Desktop, unless you're on build 14365 or newer, custom audio only works if your app is installed through the Store (yes, that means there's no way to test your audio on Desktop). Additionally, custom audio on Desktop only works on Windows 10 Version 1511 (build 10586) or newer.</Paragraph>
+            </RichTextBlock>
+
+        </StackPanel>
+
+
+
+    </ScrollViewer>
+</Page>
