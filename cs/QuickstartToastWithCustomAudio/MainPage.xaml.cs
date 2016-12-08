@@ -7,6 +7,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Foundation.Metadata;
+using Windows.Storage;
 using Windows.System.Profile;
 using Windows.UI.Notifications;
 using Windows.UI.Xaml;
@@ -31,8 +32,16 @@ namespace QuickstartToastWithCustomAudio
             this.InitializeComponent();
         }
 
-        private void ButtonSendToast_Click(object sender, RoutedEventArgs e)
+        private async void ButtonSendToast_Click(object sender, RoutedEventArgs e)
         {
+            // First we have to copy the audio to appdata
+            try
+            {
+                StorageFile sourceFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/Audio/CustomToastAudio.m4a"));
+                await sourceFile.CopyAsync(ApplicationData.Current.LocalFolder);
+            }
+            catch { }
+
             // In a real app, these would be initialized with actual data
             string title = "Andrew Bares";
             string content = "Cannot wait to try your UWP app!";
@@ -74,7 +83,7 @@ namespace QuickstartToastWithCustomAudio
             {
                 toastContent.Audio = new ToastAudio()
                 {
-                    Src = new Uri("ms-appx:///Assets/Audio/CustomToastAudio.m4a")
+                    Src = new Uri("ms-appdata:///local/CustomToastAudio.m4a")
 
                     // Supported audio file types include
                     // .aac
