@@ -36,61 +36,30 @@ namespace QuickstartToastWithCustomAudio
             // In a real app, these would be initialized with actual data
             string title = "Andrew Bares";
             string content = "Cannot wait to try your UWP app!";
+            var logoOverrideUri = new Uri("https://picsum.photos/48?image=883");
 
-            // Construct the toast content
-            ToastContent toastContent = new ToastContent()
-            {
-                Visual = new ToastVisual()
-                {
-                    BindingGeneric = new ToastBindingGeneric()
-                    {
-                        Children =
-                        {
-                            new AdaptiveText()
-                            {
-                                Text = title
-                            },
-
-                            new AdaptiveText()
-                            {
-                                Text = content
-                            }
-                        }
-                    }
-                }
-            };
-
-            bool supportsCustomAudio = true;
+            // Construct the content21
+            var contentBuilder = new ToastContentBuilder()
+                .AddToastActivationInfo("app-defined-string", ToastActivationType.Foreground)
+                .AddText(title)
+                .AddText(content)
+                // Profile (app logo override) image
+                .AddAppLogoOverride(logoOverrideUri, ToastGenericAppLogoCrop.Circle);
 
             // If we're running on Desktop before Version 1511, do NOT include custom audio
             // since it was not supported until Version 1511, and would result in a silent toast.
-            if (AnalyticsInfo.VersionInfo.DeviceFamily.Equals("Windows.Desktop")
-                && !ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 2))
-            {
-                supportsCustomAudio = false;
-            }
+
+            var supportsCustomAudio = !(AnalyticsInfo.VersionInfo.DeviceFamily.Equals("Windows.Desktop")
+                                        && !ApiInformation.IsApiContractPresent(
+                                            "Windows.Foundation.UniversalApiContract", 2));
 
             if (supportsCustomAudio)
             {
-                toastContent.Audio = new ToastAudio()
-                {
-                    Src = new Uri("ms-appx:///Assets/Audio/CustomToastAudio.m4a")
-
-                    // Supported audio file types include
-                    // .aac
-                    // .flac
-                    // .m4a
-                    // .mp3
-                    // .wav
-                    // .wma
-                };
+                contentBuilder.AddAudio(new Uri("ms-appx:///Assets/Audio/CustomToastAudio.m4a"));
             }
 
-            // And create the toast notification
-            ToastNotification notification = new ToastNotification(toastContent.GetXml());
-            
-            // And then send the toast
-            ToastNotificationManager.CreateToastNotifier().Show(notification);
+            // Send the toast
+            contentBuilder.Show();
         }
     }
 }
